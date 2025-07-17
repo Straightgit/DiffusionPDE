@@ -10,7 +10,7 @@
 
 import torch
 from torch_utils import persistence
-
+import matplotlib.pyplot as plt
 #----------------------------------------------------------------------------
 # Loss function corresponding to the variance preserving (VP) formulation
 # from the paper "Score-Based Generative Modeling through Stochastic
@@ -69,14 +69,36 @@ class EDMLoss:
         self.P_std = P_std
         self.sigma_data = sigma_data
 
-    def __call__(self, net, images, labels=None, augment_pipe=None):
+    def __call__(self, net, images, labels=None, augment_pipe=None, source = None):
+
         rnd_normal = torch.randn([images.shape[0], 1, 1, 1], device=images.device)
         sigma = (rnd_normal * self.P_std + self.P_mean).exp()
         weight = (sigma ** 2 + self.sigma_data ** 2) / (sigma * self.sigma_data) ** 2
         y, augment_labels = augment_pipe(images) if augment_pipe is not None else (images, None)
         n = torch.randn_like(y) * sigma
-        D_yn = net(y + n, sigma, labels, augment_labels=augment_labels)
+        print(y.shape,'Y')
+        print(source.unsqueeze(dim=1).shape,'source')
+        model_input = torch.cat((y + n, source.unsqueeze(dim=1)),dim=1)
+        D_yn = net(model_input, sigma, labels, augment_labels=augment_labels)
+
+        # fig, axs = plt.subplots(ncols=2, nrows=2)
+        #
+        # axs[0, 0].contourf(D_yn[1,1,:,:].detach().cpu().numpy())
+        # axs[0, 0].set(xlabel='Проницаемость нейронки')
+        #
+        # axs[0, 1].contourf(D_yn[1,0,:,:].detach().cpu().numpy())
+        # axs[0, 1].set(xlabel='Решение нейронной сети')
+        #
+        # axs[1, 0].contourf(y[1,0,:,:].detach().cpu().numpy())
+        # axs[1, 0].set(xlabel='Проницаемость')
+        #
+        # axs[1, 1].contourf(y[1,1,:,:].detach().cpu().numpy())
+        # axs[1, 1].set(xlabel='Численное решение')
+        #
+        # plt.show()
+
         loss = weight * ((D_yn - y) ** 2)
+
         return loss
 
 #----------------------------------------------------------------------------

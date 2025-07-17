@@ -299,6 +299,7 @@ def call_func_by_name(*args, func_name: str = None, **kwargs) -> Any:
 
 def construct_class_by_name(*args, class_name: str = None, **kwargs) -> Any:
     """Finds the python class with the given name and constructs it with the given arguments."""
+
     return call_func_by_name(*args, func_name=class_name, **kwargs)
 
 

@@ -1,0 +1,20 @@
+data:
+  name: 'Pressure'
+  datapath: 'data/Pressure-merged_2/pressure_3.npy'
+  offset: 1001
+
+test:
+  pre-trained: 'C:\Users\Nikita\Documents\GitHub\DiffusionPDE\pretrained_pressure\00023-Pressure-merged-uncond-ddpmpp-edm-gpu1-batch8-fp32\network-snapshot-000300.pkl'
+  #'C:\Users\Nikita\Documents\GitHub\DiffusionPDE\pretrained_pressure\00014-Pressure-merged_2-uncond-ddpmpp-edm-gpu1-batch8-fp32\network-snapshot-000170.pkl'
+  iterations: 2000
+
+generate:
+  seed: 0
+  device: 'cuda'
+  batch_size: 1
+  sigma_min: 0.002
+  sigma_max: 80
+  rho: 7
+  zeta_obs_a: 5
+  zeta_obs_u: 0
+  zeta_pde: 100

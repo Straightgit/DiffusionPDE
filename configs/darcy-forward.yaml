@@ -4,7 +4,7 @@ data:
   offset: 1001
 
 test:
-  pre-trained: 'pretrained-models/pretrained-darcy.pkl'
+  pre-trained: 'C:\Users\Nikita\Documents\GitHub\DiffusionPDE\pretrained-darcy-loaded\pretrained-darcy.pkl' #'pretrained-models/pretrained-darcy.pkl'
   iterations: 2000
 
 generate:

@@ -1,6 +1,6 @@
 import yaml
 from argparse import ArgumentParser
-from scripts import generate_burgers, generate_darcy, generate_poisson, generate_helmholtz, generate_ns_nonbounded, generate_ns_bounded
+from scripts import generate_burgers, generate_darcy, generate_poisson, generate_helmholtz, generate_ns_nonbounded, generate_ns_bounded, generate_pressure
 
 if __name__ == "__main__":
     parser = ArgumentParser(description='Generate PDE file')
@@ -28,6 +28,9 @@ if __name__ == "__main__":
     elif name == 'NS-Bounded':
         print('Solving bounded NS equation...')
         generate_ns_bounded(config)
+    elif name == 'Pressure':
+        print('Solving Pressure equation...')
+        generate_pressure(config)
     else:
         print('PDE not found')
         exit(1)

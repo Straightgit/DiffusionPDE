@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/384394667520536209/688aaf87e2b845cabc6acd350e27d313/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '384394667520536209'
+lifecycle_stage: active
+run_id: 688aaf87e2b845cabc6acd350e27d313
+run_name: DiffPDE_press
+run_uuid: 688aaf87e2b845cabc6acd350e27d313
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752519338251
+status: 1
+tags: []
+user_id: Nikita

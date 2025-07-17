@@ -4,7 +4,7 @@ data:
   offset: 1001
 
 test:
-  pre-trained: 'pretrained-models/pretrained-darcy.pkl'
+  pre-trained: 'C:\Users\Nikita\Documents\GitHub\DiffusionPDE\pretrained-darcy-new\00006-Darcy-merged-uncond-ddpmpp-edm-gpu1-batch10-fp32\network-snapshot-000080.pkl' #'pretrained-models/pretrained-darcy.pkl'
   iterations: 2000
 
 generate:

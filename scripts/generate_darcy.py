@@ -7,6 +7,7 @@ import dnnlib
 import torch.nn.functional as F
 from torch_utils import distributed as dist
 import scipy.io
+import matplotlib.pyplot as plt
 
 def random_index(k, grid_size, seed=0, device=torch.device('cuda')):
     '''randomly select k indices from a [grid_size, grid_size] grid.'''
@@ -77,7 +78,7 @@ def generate_darcy(config):
     rho = config['generate']['rho']
     sigma_t_steps = (sigma_max ** (1 / rho) + step_indices / (num_steps - 1) * (sigma_min ** (1 / rho) - sigma_max ** (1 / rho))) ** rho
     sigma_t_steps = torch.cat([net.round_sigma(sigma_t_steps), torch.zeros_like(sigma_t_steps[:1])]) # t_N = 0
-    
+
     x_next = latents.to(torch.float64) * sigma_t_steps[0]
     known_index_a = random_index(500, 128, seed=1)
     known_index_u = random_index(500, 128, seed=0)
@@ -136,4 +137,21 @@ def generate_darcy(config):
     a_final = a_final.detach().cpu().numpy()
     u_final = u_final.detach().cpu().numpy()
     scipy.io.savemat('darcy_results.mat', {'a': a_final, 'u': u_final})
+
+    fig, axs = plt.subplots(ncols=2, nrows=2)
+
+    axs[0, 0].imshow(a_GT.detach().cpu().numpy())
+    axs[0, 0].set(xlabel='Проницаемость')
+
+    axs[0, 1].imshow(a_final[0,0,:,:])
+    axs[0, 1].set(xlabel='Проницаемость Нейронки')
+
+    axs[1, 0].imshow(u_GT.detach().cpu().numpy())
+    axs[1, 0].set(xlabel='Численное решение')
+
+    axs[1, 1].imshow(u_final[0,0,:,:])
+    axs[1, 1].set(xlabel='Решение нейронной сети')
+
+    plt.show()
+
     print('Done.')
